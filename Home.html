@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+  <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+  <style>
+    .buttonDiv {
+      text-align: center;
+      padding: 3%;
+    }
+    button {
+      width: 80%
+    }
+    .message {
+      text-align: center;
+      color: grey;
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+  <h2> What folder do you want to scan?</h2>
+  <div class="buttonDiv">
+    <button onclick="scanEveryFolder()"> Scan all </button>
+  </div>
+  <div class="buttonDiv">
+    <button onclick="switchToFolderPicker()"> Select a specific folder </button>
+  </div>
+  <div id="response" class="message">
+    A scan can take a few minutes...
+  </div>
+</body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+  
+function scanEveryFolder() {
+  $('button').attr("disabled", true);
+  $('#response').empty();
+  $('#response').append("Scanning your folders...");
+  google.script.run.withFailureHandler(displayError).withSuccessHandler(closeModal).letsScanTheEntireDrive();
+}
+
+function closeModal() {
+  google.script.host.close();
+}
+
+function switchToFolderPicker() {
+  google.script.run.withFailureHandler(displayError).showPicker();
+}
+
+function displayError(e) {
+  $('#response').empty();
+  $('#response').append(e.message);
+  $('#response').css("color","red")
+}
+
+</script>
+
+</html>
